@@ -1,0 +1,25 @@
+services:
+  todo:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    environment:
+      PORT: 80
+      DATABASE_URL: mongodb://todo-mongodb:27017/todo-db
+    ports:
+      - "8000:80"
+    volumes:
+      - ./app:/app
+  
+  todo-mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_DATA_DIR: /data/db
+      MONGO_LOG_DIR: /dev/null
+    volumes:
+      - todo-mongodb-volume:/data/db
+    ports:
+      - 25017:27017
+  
+volumes:
+  todo-mongodb-volume:
